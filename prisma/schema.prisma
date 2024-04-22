@@ -54,6 +54,8 @@ model User {
   Collaborator   Collaborator?
   Company        Company?
   SkillLevelUser SkillLevelUser[]
+  New            New[]
+  LikesNews      LikesNews[]
 
   @@map("users")
 }
@@ -101,4 +103,30 @@ model SkillLevelUser {
 
   @@unique([user_id, level_id, skill_id])
   @@map("skill_lvl_usr")
+}
+
+model New {
+  new_id        String      @id @default(uuid())
+  user          User        @relation(fields: [user_id], references: [user_id])
+  user_id       String
+  new_title     String
+  new_text      String
+  img_url       String
+  accepted      Boolean     @default(false)
+  is_active     Boolean     @default(true)
+  creation_date DateTime    @default(now())
+  updated_date  DateTime    @updatedAt
+  LikesNews     LikesNews[]
+
+  @@map("news")
+}
+
+model LikesNews {
+  like_id Int    @id @default(autoincrement())
+  user    User   @relation(fields: [user_id], references: [user_id])
+  user_id String
+  new     New    @relation(fields: [new_id], references: [new_id])
+  new_id  String
+
+  @@map("likes_news")
 }
