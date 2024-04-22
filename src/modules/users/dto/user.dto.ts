@@ -1,6 +1,7 @@
 import {
   IsEmail,
   IsNotEmpty,
+  IsOptional,
   IsString,
   IsUUID,
   MaxLength,
@@ -36,16 +37,19 @@ export class UserDto {
   @MaxLength(50)
   rol_id: string;
 
+  @IsOptional()
   @IsNotEmpty()
   @IsString()
   @MaxLength(50)
-  type: string;
+  type?: string;
 
+  @IsOptional()
   @IsString()
   @IsNotEmpty()
   @MaxLength(50)
-  phone_number: string;
+  phone_number?: string;
 
+  @IsOptional()
   @IsString()
   @IsNotEmpty()
   @MinLength(4)

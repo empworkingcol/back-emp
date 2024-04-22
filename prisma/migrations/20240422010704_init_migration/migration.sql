@@ -29,7 +29,7 @@ CREATE TABLE "users" (
     "email" TEXT NOT NULL,
     "user_name" TEXT NOT NULL,
     "password" TEXT NOT NULL,
-    "is_active" BOOLEAN NOT NULL,
+    "is_active" BOOLEAN NOT NULL DEFAULT true,
     "city_id" TEXT NOT NULL,
     "rol_id" TEXT NOT NULL,
     "creation_date" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,

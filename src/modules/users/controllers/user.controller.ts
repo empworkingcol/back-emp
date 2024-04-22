@@ -38,7 +38,9 @@ export class UserController {
   @UsePipes(new ValidationPipe({ transform: true }))
   async createUser(@Body() createUserDto: UserDto): Promise<UserModel> {
     const data: Prisma.UserCreateInput = {
-      ...createUserDto,
+      email: createUserDto.email,
+      user_name: createUserDto.user_name,
+      password: createUserDto.password,
       city: { connect: { city_id: createUserDto.city_id } },
       rol: { connect: { rol_id: createUserDto.rol_id } },
     };

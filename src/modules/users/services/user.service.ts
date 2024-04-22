@@ -47,20 +47,19 @@ export class UserService {
       data,
     });
 
-    if (userDto.type === 'collaborator') {
+    if (userDto?.type === 'collaborator') {
       await this.prisma.collaborator.create({
         data: {
           phone_number: userDto.phone_number,
           user: { connect: { user_id: createUser.user_id } },
         },
       });
-    } else if (userDto.type === 'company') {
+    } else if (userDto?.type === 'company') {
       await this.prisma.company.create({
         data: {
           phone_number: userDto.phone_number,
           contact_name: userDto.contact_name,
           user: { connect: { user_id: createUser.user_id } },
-          // Otros campos necesarios para Company
         },
       });
     }
