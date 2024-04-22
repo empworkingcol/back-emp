@@ -12,3 +12,93 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Rol {
+  rol_id   String @id @default(uuid())
+  rol_name String @unique
+  User     User[]
+
+  @@map("roles")
+}
+
+model Country {
+  country_id   String @id @default(uuid())
+  country_name String @unique
+  City         City[]
+
+  @@map("countries")
+}
+
+model City {
+  city_id    String  @id @default(uuid())
+  country    Country @relation(fields: [country_id], references: [country_id])
+  country_id String
+  city_name  String
+  User       User[]
+
+  @@map("cities")
+}
+
+model User {
+  user_id        String           @id @default(uuid())
+  email          String           @unique
+  user_name      String
+  password       String
+  is_active      Boolean          @default(true)
+  city           City             @relation(fields: [city_id], references: [city_id])
+  city_id        String
+  rol            Rol              @relation(fields: [rol_id], references: [rol_id])
+  rol_id         String
+  creation_date  DateTime         @default(now())
+  updated_date   DateTime         @updatedAt
+  Collaborator   Collaborator?
+  Company        Company?
+  SkillLevelUser SkillLevelUser[]
+
+  @@map("users")
+}
+
+model Collaborator {
+  user         User   @relation(fields: [user_id], references: [user_id])
+  user_id      String @unique
+  phone_number String
+
+  @@map("collaborators")
+}
+
+model Company {
+  user         User   @relation(fields: [user_id], references: [user_id])
+  user_id      String @unique
+  contact_name String
+  phone_number String
+
+  @@map("companies")
+}
+
+model Skill {
+  skill_id       String           @id @default(uuid())
+  skill_name     String           @unique
+  SkillLevelUser SkillLevelUser[]
+
+  @@map("skills")
+}
+
+model Level {
+  level_id       String           @id @default(uuid())
+  level_name     String           @unique
+  SkillLevelUser SkillLevelUser[]
+
+  @@map("levels")
+}
+
+model SkillLevelUser {
+  user     User   @relation(fields: [user_id], references: [user_id])
+  user_id  String
+  level    Level  @relation(fields: [level_id], references: [level_id])
+  level_id String
+  skill    Skill  @relation(fields: [skill_id], references: [skill_id])
+  skill_id String
+
+  @@unique([user_id, level_id, skill_id])
+  @@map("skill_lvl_usr")
+}
