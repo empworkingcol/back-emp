@@ -6,15 +6,12 @@ import {
   Post,
   Put,
   Query,
-  UploadedFile,
-  UseInterceptors,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
 import { Prisma, JobOffer as JobOfferModel } from '@prisma/client';
 import { JobOfferDto } from '../dto/job.dto';
 import { JobOfferService } from '../services/job.service';
-import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('jobs')
 export class JobOfferController {
@@ -37,10 +34,8 @@ export class JobOfferController {
   }
 
   @Post()
-  @UseInterceptors(FileInterceptor('file'))
   @UsePipes(new ValidationPipe({ transform: true }))
   async createJobOffer(
-    @UploadedFile() file: Express.MulterS3.File,
     @Body() createJobOfferDto: JobOfferDto,
   ): Promise<JobOfferModel> {
     const data: Prisma.JobOfferCreateInput = {

@@ -141,11 +141,12 @@ model NewComment {
 }
 
 model LikeNew {
-  like_id Int    @id @default(autoincrement())
-  user    User   @relation(fields: [user_id], references: [user_id])
-  user_id String
-  new     New    @relation(fields: [new_id], references: [new_id])
-  new_id  String
+  like_id   Int     @id @default(autoincrement())
+  user      User    @relation(fields: [user_id], references: [user_id])
+  user_id   String
+  new       New     @relation(fields: [new_id], references: [new_id])
+  new_id    String
+  is_active Boolean @default(true)
 
   @@map("likes_news")
 }

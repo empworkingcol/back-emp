@@ -5,6 +5,10 @@ import { PrismaModule } from '../prisma/prisma.module';
 import { NewController } from './controllers/new.controller';
 import { MulterConfigService } from 'src/common/services/multer.config.service';
 import { NewService } from './services/new.service';
+import { NewCommentController } from './controllers/comment.controller';
+import { LikeNewController } from './controllers/like.controller';
+import { NewCommentService } from './services/comment.service';
+import { LikeNewService } from './services/like.service';
 
 @Module({
   imports: [
@@ -13,7 +17,7 @@ import { NewService } from './services/new.service';
       useClass: MulterConfigService,
     }),
   ],
-  controllers: [NewController],
-  providers: [NewService],
+  controllers: [NewController, NewCommentController, LikeNewController],
+  providers: [NewService, NewCommentService, LikeNewService],
 })
 export class NewModule {}
