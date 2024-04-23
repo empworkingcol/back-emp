@@ -12,7 +12,7 @@ export class UserDto {
   @IsNotEmpty()
   @IsString()
   @MinLength(4)
-  @MaxLength(50)
+  @MaxLength(100)
   user_name: string;
 
   @IsEmail()
@@ -28,7 +28,7 @@ export class UserDto {
   @IsNotEmpty()
   @IsString()
   @IsUUID()
-  @MaxLength(100)
+  @MaxLength(50)
   city_id: string;
 
   @IsNotEmpty()
