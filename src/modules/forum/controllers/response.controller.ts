@@ -24,6 +24,9 @@ export class ForumResponseController {
     const data: Prisma.ForumResponseCreateInput = {
       response_text: createForumResponseDto.response_text,
       user: { connect: { user_id: createForumResponseDto.user_id } },
+      question: {
+        connect: { question_id: createForumResponseDto.question_id },
+      },
     };
     return this.forumResponseService.createForumResponse(data);
   }

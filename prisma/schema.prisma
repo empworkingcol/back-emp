@@ -165,26 +165,29 @@ model JobOffer {
 }
 
 model ForumQuestion {
-  question_id    String   @id @default(uuid())
-  user           User     @relation(fields: [user_id], references: [user_id])
+  question_id    String          @id @default(uuid())
+  user           User            @relation(fields: [user_id], references: [user_id])
   user_id        String
   question_text  String
   question_title String
-  is_active      Boolean  @default(true)
-  creation_date  DateTime @default(now())
-  updated_date   DateTime @updatedAt
+  is_active      Boolean         @default(true)
+  creation_date  DateTime        @default(now())
+  updated_date   DateTime        @updatedAt
+  ForumResponse  ForumResponse[]
 
   @@map("forum_questions")
 }
 
 model ForumResponse {
-  response_id   String   @id @default(uuid())
-  user          User     @relation(fields: [user_id], references: [user_id])
+  response_id   String        @id @default(uuid())
+  user          User          @relation(fields: [user_id], references: [user_id])
   user_id       String
+  question      ForumQuestion @relation(fields: [question_id], references: [question_id])
+  question_id   String
   response_text String
-  is_active     Boolean  @default(true)
-  creation_date DateTime @default(now())
-  updated_date  DateTime @updatedAt
+  is_active     Boolean       @default(true)
+  creation_date DateTime      @default(now())
+  updated_date  DateTime      @updatedAt
 
   @@map("forum_responses")
 }
