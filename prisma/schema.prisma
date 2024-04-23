@@ -54,6 +54,12 @@ model User {
   Collaborator   Collaborator?
   Company        Company?
   SkillLevelUser SkillLevelUser[]
+  New            New[]
+  LikeNew        LikeNew[]
+  JobOffer       JobOffer[]
+  ForumQuestion  ForumQuestion[]
+  ForumResponse  ForumResponse[]
+  NewComment     NewComment[]
 
   @@map("users")
 }
@@ -101,4 +107,87 @@ model SkillLevelUser {
 
   @@unique([user_id, level_id, skill_id])
   @@map("skill_lvl_usr")
+}
+
+model New {
+  new_id        String       @id @default(uuid())
+  user          User         @relation(fields: [user_id], references: [user_id])
+  user_id       String
+  new_title     String
+  new_text      String
+  img_url       String
+  accepted      Boolean      @default(false)
+  is_active     Boolean      @default(true)
+  creation_date DateTime     @default(now())
+  updated_date  DateTime     @updatedAt
+  LikeNew       LikeNew[]
+  NewComment    NewComment[]
+
+  @@map("news")
+}
+
+model NewComment {
+  comment_id    String   @id @default(uuid())
+  user          User     @relation(fields: [user_id], references: [user_id])
+  user_id       String
+  new           New      @relation(fields: [new_id], references: [new_id])
+  new_id        String
+  comment_text  String
+  is_active     Boolean  @default(true)
+  creation_date DateTime @default(now())
+  updated_date  DateTime @updatedAt
+
+  @@map("new_comments")
+}
+
+model LikeNew {
+  like_id   Int     @id @default(autoincrement())
+  user      User    @relation(fields: [user_id], references: [user_id])
+  user_id   String
+  new       New     @relation(fields: [new_id], references: [new_id])
+  new_id    String
+  is_active Boolean @default(true)
+
+  @@map("likes_news")
+}
+
+model JobOffer {
+  job_offer_id  String   @id @default(uuid())
+  user          User     @relation(fields: [user_id], references: [user_id])
+  user_id       String
+  offer_text    String
+  offer_title   String
+  is_active     Boolean  @default(true)
+  creation_date DateTime @default(now())
+  updated_date  DateTime @updatedAt
+
+  @@map("job_offers")
+}
+
+model ForumQuestion {
+  question_id    String          @id @default(uuid())
+  user           User            @relation(fields: [user_id], references: [user_id])
+  user_id        String
+  question_text  String
+  question_title String
+  is_active      Boolean         @default(true)
+  creation_date  DateTime        @default(now())
+  updated_date   DateTime        @updatedAt
+  ForumResponse  ForumResponse[]
+
+  @@map("forum_questions")
+}
+
+model ForumResponse {
+  response_id   String        @id @default(uuid())
+  user          User          @relation(fields: [user_id], references: [user_id])
+  user_id       String
+  question      ForumQuestion @relation(fields: [question_id], references: [question_id])
+  question_id   String
+  response_text String
+  is_active     Boolean       @default(true)
+  creation_date DateTime      @default(now())
+  updated_date  DateTime      @updatedAt
+
+  @@map("forum_responses")
 }
