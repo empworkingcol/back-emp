@@ -60,6 +60,7 @@ model User {
   ForumQuestion  ForumQuestion[]
   ForumResponse  ForumResponse[]
   NewComment     NewComment[]
+  CoursesUsers   CoursesUsers[]
 
   @@map("users")
 }
@@ -156,7 +157,7 @@ model JobOffer {
   user          User     @relation(fields: [user_id], references: [user_id])
   user_id       String
   offer_text    String
-  offer_title   String
+  offer_titsle   String
   is_active     Boolean  @default(true)
   creation_date DateTime @default(now())
   updated_date  DateTime @updatedAt
@@ -190,4 +191,86 @@ model ForumResponse {
   updated_date  DateTime      @updatedAt
 
   @@map("forum_responses")
+}
+
+model CourseCategory {
+  category_id   Int      @id @default(autoincrement())
+  category_name String
+  Course        Course[]
+
+  @@map("course_categories")
+}
+
+model CourseStatus {
+  status_id    Int            @id @default(autoincrement())
+  status_name  String
+  CoursesUsers CoursesUsers[]
+
+  @@map("course_status")
+}
+
+enum CourseType {
+  ONSITE
+  ONLINE
+}
+
+model Course {
+  course_id          String         @id @default(uuid())
+  course_name        String
+  course_description String
+  img_url            String
+  total_steps        Int
+  course_type        CourseType
+  course_date        DateTime
+  CategoryCourse     CourseCategory @relation(fields: [category_id], references: [category_id])
+  category_id        Int
+  is_active          Boolean        @default(true)
+  creation_date      DateTime       @default(now())
+  updated_date       DateTime       @updatedAt
+  Video              Video[]
+  Test               Test[]
+  CoursesUsers       CoursesUsers[]
+
+  @@map("courses")
+}
+
+model Video {
+  video_id  String @id @default(uuid())
+  course    Course @relation(fields: [course_id], references: [course_id])
+  course_id String
+  video_url String
+  position  Int
+
+  @@map("videos")
+}
+
+model Test {
+  test_id        String   @id @default(uuid())
+  course         Course   @relation(fields: [course_id], references: [course_id])
+  course_id      String
+  question       String
+  option_1       String
+  option_2       String
+  option_3       String
+  option_4       String
+  correct_answer String
+  position       Int
+  is_active      Boolean  @default(true)
+  creation_date  DateTime @default(now())
+  updated_date   DateTime @updatedAt
+
+  @@map("tests")
+}
+
+model CoursesUsers {
+  Course       Course       @relation(fields: [course_id], references: [course_id])
+  course_id    String
+  User         User         @relation(fields: [user_id], references: [user_id])
+  user_id      String
+  CourseStatus CourseStatus @relation(fields: [status_id], references: [status_id])
+  status_id    Int
+  step         Int
+
+  @@unique([user_id, course_id, status_id])
+  @@map("courses_users")
 }
