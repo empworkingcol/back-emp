@@ -1,13 +1,12 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { PrismaModule } from './modules/prisma/prisma.module';
 import { UserModule } from './modules/users/user.module';
 import { NewModule } from './modules/news/new.module';
 import { JobOfferModule } from './modules/jobs/job.module';
 import { ForumModule } from './modules/forum/forum.module';
+import { CourseModule } from './modules/course/course.module';
 
 @Module({
   imports: [
@@ -21,8 +20,9 @@ import { ForumModule } from './modules/forum/forum.module';
     NewModule,
     JobOfferModule,
     ForumModule,
+    CourseModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}
