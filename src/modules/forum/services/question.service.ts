@@ -2,6 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { Prisma, ForumQuestion } from '@prisma/client';
 
 import { PrismaService } from '../../prisma/prisma.service';
+import { ResForumQuestionDto } from '../dto/res-question.dto';
 
 @Injectable()
 export class ForumQuestionService {
@@ -11,10 +12,31 @@ export class ForumQuestionService {
 
   async getForumQuestion(
     forumQuestionWhereUniqueInput: Prisma.ForumQuestionWhereUniqueInput,
-  ): Promise<ForumQuestion | null> {
+  ): Promise<ResForumQuestionDto | null> {
     this.logger.log('forumQuestionById');
     const forumQuestion = await this.prisma.forumQuestion.findUnique({
       where: forumQuestionWhereUniqueInput,
+      select: {
+        question_id: true,
+        question_text: true,
+        question_title: true,
+        user: {
+          select: {
+            user_name: true,
+          },
+        },
+        ForumResponse: {
+          select: {
+            response_text: true,
+            user: {
+              select: {
+                user_name: true,
+              },
+            },
+          },
+        },
+        creation_date: true,
+      },
     });
     return forumQuestion;
   }
@@ -25,6 +47,16 @@ export class ForumQuestionService {
     const data = await this.prisma.forumQuestion.findMany({
       skip: skip,
       take: limit,
+      select: {
+        question_id: true,
+        question_title: true,
+        user: {
+          select: {
+            user_name: true,
+          },
+        },
+        creation_date: true,
+      },
     });
     const total = await this.prisma.forumQuestion.count();
     const totalPages = Math.ceil(total / limit);

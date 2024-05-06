@@ -2,6 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { Prisma, JobOffer } from '@prisma/client';
 
 import { PrismaService } from '../../prisma/prisma.service';
+import { ResJobOfferDto } from '../dto/res-job.sto';
 
 @Injectable()
 export class JobOfferService {
@@ -11,10 +12,31 @@ export class JobOfferService {
 
   async getJob(
     jobWhereUniqueInput: Prisma.JobOfferWhereUniqueInput,
-  ): Promise<JobOffer | null> {
+  ): Promise<ResJobOfferDto | null> {
     this.logger.log('jobById');
     const jobData = await this.prisma.jobOffer.findUnique({
       where: jobWhereUniqueInput,
+      select: {
+        job_offer_id: true,
+        user: {
+          select: {
+            user_name: true,
+          },
+        },
+        city: {
+          select: {
+            city_name: true,
+            country: {
+              select: {
+                country_name: true,
+              },
+            },
+          },
+        },
+        offer_title: true,
+        creation_date: true,
+        offer_text: true,
+      },
     });
     return jobData;
   }
@@ -25,6 +47,26 @@ export class JobOfferService {
     const data = await this.prisma.jobOffer.findMany({
       skip: skip,
       take: limit,
+      select: {
+        job_offer_id: true,
+        user: {
+          select: {
+            user_name: true,
+          },
+        },
+        city: {
+          select: {
+            city_name: true,
+            country: {
+              select: {
+                country_name: true,
+              },
+            },
+          },
+        },
+        offer_title: true,
+        creation_date: true,
+      },
     });
     const total = await this.prisma.jobOffer.count();
     const totalPages = Math.ceil(total / limit);
