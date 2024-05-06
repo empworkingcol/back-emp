@@ -19,5 +19,6 @@ import { CityController } from './controllers/city.controller';
     CityController,
   ],
   providers: [UserService, RolService, CountryService, CityService],
+  exports: [UserService],
 })
 export class UserModule {}

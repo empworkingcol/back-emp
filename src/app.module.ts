@@ -7,6 +7,7 @@ import { NewModule } from './modules/news/new.module';
 import { JobOfferModule } from './modules/jobs/job.module';
 import { ForumModule } from './modules/forum/forum.module';
 import { CourseModule } from './modules/course/course.module';
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { CourseModule } from './modules/course/course.module';
     JobOfferModule,
     ForumModule,
     CourseModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [],

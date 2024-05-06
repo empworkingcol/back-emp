@@ -7,6 +7,7 @@ import {
   Put,
   Query,
   UploadedFile,
+  UseGuards,
   UseInterceptors,
   UsePipes,
   ValidationPipe,
@@ -16,6 +17,7 @@ import { Prisma, New as NewModel } from '@prisma/client';
 import { NewDto } from '../dto/new.dto';
 import { NewService } from '../services/new.service';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { JwtAuthGuard } from 'src/modules/auth/config/jwt-auth.guard';
 
 @Controller('news')
 export class NewController {
@@ -37,6 +39,7 @@ export class NewController {
     return this.newService.getNew({ new_id: new_id });
   }
 
+  @UseGuards(JwtAuthGuard)
   @Post()
   @UseInterceptors(FileInterceptor('file'))
   @UsePipes(new ValidationPipe({ transform: true }))

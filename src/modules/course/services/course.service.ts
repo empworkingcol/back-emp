@@ -5,6 +5,7 @@ import { PrismaService } from '../../prisma/prisma.service';
 import { CourseDto } from '../dto/course.dto';
 import { CourseVideoDto } from '../dto/video.dto';
 import { TestDto } from '../dto/test.dto';
+import { ResCourseDto } from '../dto/res-course.dto';
 
 @Injectable()
 export class CourseService {
@@ -14,17 +15,60 @@ export class CourseService {
 
   async getCourse(
     courseWhereUniqueInput: Prisma.CourseWhereUniqueInput,
-  ): Promise<Course | null> {
+  ): Promise<ResCourseDto | null> {
     this.logger.log('courseById');
     const course = await this.prisma.course.findUnique({
       where: courseWhereUniqueInput,
+      select: {
+        course_name: true,
+        course_description: true,
+        img_url: true,
+        course_date: true,
+        total_steps: true,
+        course_type: true,
+        CategoryCourse: {
+          select: {
+            category_name: true,
+          },
+        },
+        Video: {
+          select: {
+            video_url: true,
+            position: true,
+          },
+        },
+        Test: {
+          select: {
+            option_1: true,
+            option_2: true,
+            option_3: true,
+            option_4: true,
+            question: true,
+            position: true,
+            correct_answer: true,
+          },
+        },
+      },
     });
     return course;
   }
 
   async getAllCourses() {
     this.logger.log('getAllCourses');
-    const data = await this.prisma.course.findMany();
+    const data = await this.prisma.course.findMany({
+      select: {
+        course_id: true,
+        course_name: true,
+        course_description: true,
+        img_url: true,
+        course_date: true,
+        CategoryCourse: {
+          select: {
+            category_name: true,
+          },
+        },
+      },
+    });
 
     return {
       data,

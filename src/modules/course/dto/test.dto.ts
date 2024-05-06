@@ -45,7 +45,7 @@ export class TestDto {
 
   @IsNotEmpty()
   @IsString()
-  @MinLength(6)
+  @MinLength(2)
   @MaxLength(255)
   correct_answer: string;
 }
