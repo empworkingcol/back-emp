@@ -42,6 +42,7 @@ export class JobOfferController {
       offer_text: createJobOfferDto.offer_text,
       offer_title: createJobOfferDto.offer_title,
       user: { connect: { user_id: createJobOfferDto.user_id } },
+      city: { connect: { city_id: createJobOfferDto.city_id } },
     };
     return this.jobService.createJob(data);
   }

@@ -30,11 +30,12 @@ model Country {
 }
 
 model City {
-  city_id    String  @id @default(uuid())
-  country    Country @relation(fields: [country_id], references: [country_id])
+  city_id    String     @id @default(uuid())
+  country    Country    @relation(fields: [country_id], references: [country_id])
   country_id String
   city_name  String
   User       User[]
+  JobOffer   JobOffer[]
 
   @@map("cities")
 }
@@ -66,16 +67,16 @@ model User {
 }
 
 model Collaborator {
-  user         User   @relation(fields: [user_id], references: [user_id])
-  user_id      String @unique
-  phone_number String
+  user            User   @relation(fields: [collaborator_id], references: [user_id])
+  collaborator_id String @unique
+  phone_number    String
 
   @@map("collaborators")
 }
 
 model Company {
-  user         User   @relation(fields: [user_id], references: [user_id])
-  user_id      String @unique
+  user         User   @relation(fields: [company_id], references: [user_id])
+  company_id   String @unique
   contact_name String
   phone_number String
 
@@ -156,8 +157,10 @@ model JobOffer {
   job_offer_id  String   @id @default(uuid())
   user          User     @relation(fields: [user_id], references: [user_id])
   user_id       String
+  city          City     @relation(fields: [city_id], references: [city_id])
+  city_id       String
   offer_text    String
-  offer_titsle   String
+  offer_title   String
   is_active     Boolean  @default(true)
   creation_date DateTime @default(now())
   updated_date  DateTime @updatedAt

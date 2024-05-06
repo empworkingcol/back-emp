@@ -24,4 +24,10 @@ export class JobOfferDto {
   @IsUUID()
   @MaxLength(50)
   user_id: string;
+
+  @IsNotEmpty()
+  @IsString()
+  @IsUUID()
+  @MaxLength(50)
+  city_id: string;
 }
