@@ -2,6 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { Prisma, New } from '@prisma/client';
 
 import { PrismaService } from '../../prisma/prisma.service';
+import { ResNewDto } from '../dto/res-new.dto';
 
 @Injectable()
 export class NewService {
@@ -11,10 +12,33 @@ export class NewService {
 
   async getNew(
     newWhereUniqueInput: Prisma.NewWhereUniqueInput,
-  ): Promise<New | null> {
+  ): Promise<ResNewDto | null> {
     this.logger.log('newById');
     const newData = await this.prisma.new.findUnique({
       where: newWhereUniqueInput,
+      select: {
+        new_id: true,
+        new_title: true,
+        new_text: true,
+        img_url: true,
+        NewComment: {
+          select: {
+            comment_text: true,
+            creation_date: true,
+            user: {
+              select: {
+                user_name: true,
+              },
+            },
+          },
+        },
+        user: {
+          select: {
+            user_name: true,
+          },
+        },
+        creation_date: true,
+      },
     });
     return newData;
   }
@@ -25,6 +49,33 @@ export class NewService {
     const data = await this.prisma.new.findMany({
       skip: skip,
       take: limit,
+      select: {
+        new_id: true,
+        new_title: true,
+        new_text: true,
+        img_url: true,
+        NewComment: {
+          select: {
+            comment_text: true,
+            creation_date: true,
+            user: {
+              select: {
+                user_name: true,
+              },
+            },
+          },
+          orderBy: {
+            creation_date: 'desc',
+          },
+          take: 3,
+        },
+        user: {
+          select: {
+            user_name: true,
+          },
+        },
+        creation_date: true,
+      },
     });
     const total = await this.prisma.new.count();
     const totalPages = Math.ceil(total / limit);
