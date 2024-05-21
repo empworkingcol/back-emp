@@ -9,6 +9,7 @@ import { JwtStrategy } from './config/jwt.strategy';
 import { UserModule } from '../users/user.module';
 import { JwtAuthGuard } from './config/jwt-auth.guard';
 import { LocalStrategy } from './config/local.strategy';
+import { RolesGuard } from './config/roles.guard';
 
 @Module({
   imports: [
@@ -23,8 +24,14 @@ import { LocalStrategy } from './config/local.strategy';
       inject: [ConfigService],
     }),
   ],
-  providers: [AuthService, JwtStrategy, JwtAuthGuard, LocalStrategy],
+  providers: [
+    AuthService,
+    JwtStrategy,
+    JwtAuthGuard,
+    LocalStrategy,
+    RolesGuard,
+  ],
   controllers: [AuthController],
-  exports: [AuthService, JwtModule, JwtAuthGuard],
+  exports: [AuthService, JwtModule, JwtAuthGuard, RolesGuard],
 })
 export class AuthModule {}
