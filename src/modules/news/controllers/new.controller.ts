@@ -39,8 +39,8 @@ export class NewController {
     return this.newService.getNew({ new_id: new_id });
   }
 
-  @UseGuards(JwtAuthGuard)
   @Post()
+  @UseGuards(JwtAuthGuard)
   @UseInterceptors(FileInterceptor('file'))
   @UsePipes(new ValidationPipe({ transform: true }))
   async createNew(

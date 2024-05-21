@@ -6,12 +6,15 @@ import {
   Post,
   Put,
   Query,
+  UseGuards,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
 import { Prisma, JobOffer as JobOfferModel } from '@prisma/client';
 import { JobOfferDto } from '../dto/job.dto';
 import { JobOfferService } from '../services/job.service';
+import { Roles } from 'src/modules/auth/config/roles.decorator';
+import { JwtAuthGuard } from 'src/modules/auth/config/jwt-auth.guard';
 
 @Controller('jobs')
 export class JobOfferController {
@@ -34,6 +37,8 @@ export class JobOfferController {
   }
 
   @Post()
+  @UseGuards(JwtAuthGuard)
+  @Roles('SPR', 'ADM', 'COMP')
   @UsePipes(new ValidationPipe({ transform: true }))
   async createJobOffer(
     @Body() createJobOfferDto: JobOfferDto,

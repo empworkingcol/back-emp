@@ -6,12 +6,14 @@ import {
   Post,
   Put,
   Query,
+  UseGuards,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
 import { Prisma, NewComment as NewCommentModel } from '@prisma/client';
 import { NewCommentDto } from '../dto/comment.dto';
 import { NewCommentService } from '../services/comment.service';
+import { JwtAuthGuard } from 'src/modules/auth/config/jwt-auth.guard';
 
 @Controller('news/comments')
 export class NewCommentController {
@@ -29,6 +31,7 @@ export class NewCommentController {
   }
 
   @Post()
+  @UseGuards(JwtAuthGuard)
   @UsePipes(new ValidationPipe({ transform: true }))
   async createNewComment(
     @Body() createNewCommentDto: NewCommentDto,

@@ -6,6 +6,7 @@ import {
   Post,
   Put,
   Query,
+  UseGuards,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
@@ -13,6 +14,7 @@ import { Prisma, ForumQuestion as ForumQuestionModel } from '@prisma/client';
 
 import { ForumQuestionDto } from '../dto/question.dto';
 import { ForumQuestionService } from '../services/question.service';
+import { JwtAuthGuard } from 'src/modules/auth/config/jwt-auth.guard';
 
 @Controller('forum/questions')
 export class ForumQuestionController {
@@ -37,6 +39,7 @@ export class ForumQuestionController {
   }
 
   @Post()
+  @UseGuards(JwtAuthGuard)
   @UsePipes(new ValidationPipe({ transform: true }))
   async createForumQuestion(
     @Body() createForumQuestionDto: ForumQuestionDto,

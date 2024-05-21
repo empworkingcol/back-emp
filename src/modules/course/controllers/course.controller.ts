@@ -16,6 +16,7 @@ import { CourseService } from '../services/course.service';
 import { EnrollDto } from '../dto/enroll.dto';
 import { RolesGuard } from 'src/modules/auth/config/roles.guard';
 import { Roles } from 'src/modules/auth/config/roles.decorator';
+import { JwtAuthGuard } from 'src/modules/auth/config/jwt-auth.guard';
 
 @Controller('courses/')
 @UseGuards(RolesGuard)
@@ -39,7 +40,8 @@ export class CourseController {
   }
 
   @Post()
-  @Roles('SPR')
+  @UseGuards(JwtAuthGuard)
+  @Roles('SPR', 'ADM')
   @UsePipes(new ValidationPipe({ transform: true }))
   async createCourse(@Body() createCourseDto: CourseDto): Promise<CourseModel> {
     return this.courseService.createCourse(createCourseDto);
