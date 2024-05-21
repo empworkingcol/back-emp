@@ -65,6 +65,7 @@ export class JobOfferService {
           },
         },
         offer_title: true,
+        offer_text: true,
         creation_date: true,
       },
     });

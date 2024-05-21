@@ -7,6 +7,7 @@ export class ResForumQuestionDto {
   };
   ForumResponse: {
     response_text: string;
+    creation_date: Date;
     user: {
       user_name: string;
     };

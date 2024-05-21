@@ -10,7 +10,7 @@ export class JobOfferDto {
   @IsNotEmpty()
   @IsString()
   @MinLength(6)
-  @MaxLength(255)
+  @MaxLength(2040)
   offer_text: string;
 
   @IsNotEmpty()

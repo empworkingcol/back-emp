@@ -16,7 +16,7 @@ datasource db {
 model Rol {
   rol_id   String @id @default(uuid())
   rol_name String @unique
-  User     User[]
+  user     User[]
 
   @@map("roles")
 }
@@ -24,7 +24,7 @@ model Rol {
 model Country {
   country_id   String @id @default(uuid())
   country_name String @unique
-  City         City[]
+  city         City[]
 
   @@map("countries")
 }
@@ -34,34 +34,34 @@ model City {
   country    Country    @relation(fields: [country_id], references: [country_id])
   country_id String
   city_name  String
-  User       User[]
-  JobOffer   JobOffer[]
+  user       User[]
+  job_offer  JobOffer[]
 
   @@map("cities")
 }
 
 model User {
-  user_id        String           @id @default(uuid())
-  email          String           @unique
-  user_name      String
-  password       String
-  is_active      Boolean          @default(true)
-  city           City             @relation(fields: [city_id], references: [city_id])
-  city_id        String
-  rol            Rol              @relation(fields: [rol_id], references: [rol_id])
-  rol_id         String
-  creation_date  DateTime         @default(now())
-  updated_date   DateTime         @updatedAt
-  Collaborator   Collaborator?
-  Company        Company?
-  SkillLevelUser SkillLevelUser[]
-  New            New[]
-  LikeNew        LikeNew[]
-  JobOffer       JobOffer[]
-  ForumQuestion  ForumQuestion[]
-  ForumResponse  ForumResponse[]
-  NewComment     NewComment[]
-  CoursesUsers   CoursesUsers[]
+  user_id          String           @id @default(uuid())
+  email            String           @unique
+  user_name        String
+  password         String
+  is_active        Boolean          @default(true)
+  city             City             @relation(fields: [city_id], references: [city_id])
+  city_id          String
+  rol              Rol              @relation(fields: [rol_id], references: [rol_id])
+  rol_id           String
+  creation_date    DateTime         @default(now())
+  updated_date     DateTime         @updatedAt
+  collaborator     Collaborator?
+  company          Company?
+  skill_level_user SkillLevelUser[]
+  new              New[]
+  like_new         LikeNew[]
+  job_offer        JobOffer[]
+  forum_question   ForumQuestion[]
+  forum_response   ForumResponse[]
+  new_comment      NewComment[]
+  courses_users    CoursesUsers[]
 
   @@map("users")
 }
@@ -84,17 +84,17 @@ model Company {
 }
 
 model Skill {
-  skill_id       String           @id @default(uuid())
-  skill_name     String           @unique
-  SkillLevelUser SkillLevelUser[]
+  skill_id         String           @id @default(uuid())
+  skill_name       String           @unique
+  skill_level_user SkillLevelUser[]
 
   @@map("skills")
 }
 
 model Level {
-  level_id       String           @id @default(uuid())
-  level_name     String           @unique
-  SkillLevelUser SkillLevelUser[]
+  level_id         String           @id @default(uuid())
+  level_name       String           @unique
+  skill_level_user SkillLevelUser[]
 
   @@map("levels")
 }
@@ -116,14 +116,14 @@ model New {
   user          User         @relation(fields: [user_id], references: [user_id])
   user_id       String
   new_title     String
-  new_text      String
+  new_text      String       @db.VarChar(2040)
   img_url       String
   accepted      Boolean      @default(false)
   is_active     Boolean      @default(true)
   creation_date DateTime     @default(now())
   updated_date  DateTime     @updatedAt
-  LikeNew       LikeNew[]
-  NewComment    NewComment[]
+  like_new      LikeNew[]
+  new_comment   NewComment[]
 
   @@map("news")
 }
@@ -134,7 +134,7 @@ model NewComment {
   user_id       String
   new           New      @relation(fields: [new_id], references: [new_id])
   new_id        String
-  comment_text  String
+  comment_text  String   @db.VarChar(2040)
   is_active     Boolean  @default(true)
   creation_date DateTime @default(now())
   updated_date  DateTime @updatedAt
@@ -159,7 +159,7 @@ model JobOffer {
   user_id       String
   city          City     @relation(fields: [city_id], references: [city_id])
   city_id       String
-  offer_text    String
+  offer_text    String   @db.VarChar(2040)
   offer_title   String
   is_active     Boolean  @default(true)
   creation_date DateTime @default(now())
@@ -172,7 +172,7 @@ model ForumQuestion {
   question_id    String          @id @default(uuid())
   user           User            @relation(fields: [user_id], references: [user_id])
   user_id        String
-  question_text  String
+  question_text  String          @db.VarChar(2040)
   question_title String
   is_active      Boolean         @default(true)
   creation_date  DateTime        @default(now())
@@ -188,7 +188,7 @@ model ForumResponse {
   user_id       String
   question      ForumQuestion @relation(fields: [question_id], references: [question_id])
   question_id   String
-  response_text String
+  response_text String        @db.VarChar(2040)
   is_active     Boolean       @default(true)
   creation_date DateTime      @default(now())
   updated_date  DateTime      @updatedAt
@@ -199,15 +199,15 @@ model ForumResponse {
 model CourseCategory {
   category_id   Int      @id @default(autoincrement())
   category_name String
-  Course        Course[]
+  course        Course[]
 
   @@map("course_categories")
 }
 
 model CourseStatus {
-  status_id    Int            @id @default(autoincrement())
-  status_name  String
-  CoursesUsers CoursesUsers[]
+  status_id     Int            @id @default(autoincrement())
+  status_name   String
+  courses_users CoursesUsers[]
 
   @@map("course_status")
 }
@@ -225,14 +225,14 @@ model Course {
   total_steps        Int
   course_type        CourseType
   course_date        DateTime
-  CategoryCourse     CourseCategory @relation(fields: [category_id], references: [category_id])
+  category_course    CourseCategory @relation(fields: [category_id], references: [category_id])
   category_id        Int
   is_active          Boolean        @default(true)
   creation_date      DateTime       @default(now())
   updated_date       DateTime       @updatedAt
-  Video              Video[]
-  Test               Test[]
-  CoursesUsers       CoursesUsers[]
+  video              Video[]
+  test               Test[]
+  courses_users      CoursesUsers[]
 
   @@map("courses")
 }
@@ -266,13 +266,13 @@ model Test {
 }
 
 model CoursesUsers {
-  Course       Course       @relation(fields: [course_id], references: [course_id])
-  course_id    String
-  User         User         @relation(fields: [user_id], references: [user_id])
-  user_id      String
-  CourseStatus CourseStatus @relation(fields: [status_id], references: [status_id])
-  status_id    Int
-  step         Int
+  course        Course       @relation(fields: [course_id], references: [course_id])
+  course_id     String
+  user          User         @relation(fields: [user_id], references: [user_id])
+  user_id       String
+  course_status CourseStatus @relation(fields: [status_id], references: [status_id])
+  status_id     Int
+  step          Int
 
   @@unique([user_id, course_id, status_id])
   @@map("courses_users")

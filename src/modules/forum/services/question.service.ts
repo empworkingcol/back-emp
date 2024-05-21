@@ -28,6 +28,7 @@ export class ForumQuestionService {
         ForumResponse: {
           select: {
             response_text: true,
+            creation_date: true,
             user: {
               select: {
                 user_name: true,

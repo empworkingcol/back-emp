@@ -21,7 +21,7 @@ export class NewDto {
 
   @IsNotEmpty()
   @IsString()
-  @MinLength(4)
-  @MaxLength(255)
+  @MinLength(2)
+  @MaxLength(2040)
   new_text: string;
 }

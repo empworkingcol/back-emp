@@ -9,8 +9,8 @@ import {
 export class NewCommentDto {
   @IsNotEmpty()
   @IsString()
-  @MinLength(6)
-  @MaxLength(255)
+  @MinLength(2)
+  @MaxLength(2040)
   comment_text: string;
 
   @IsNotEmpty()

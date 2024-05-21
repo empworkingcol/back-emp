@@ -4,6 +4,7 @@ import {
   Param,
   Post,
   Put,
+  UseGuards,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
@@ -11,6 +12,7 @@ import { Prisma, ForumResponse as ForumResponseModel } from '@prisma/client';
 
 import { ForumResponseDto } from '../dto/response.dto';
 import { ForumResponseService } from '../services/response.service';
+import { JwtAuthGuard } from 'src/modules/auth/config/jwt-auth.guard';
 
 @Controller('forum/responses')
 export class ForumResponseController {
@@ -18,6 +20,7 @@ export class ForumResponseController {
 
   @Post()
   @UsePipes(new ValidationPipe({ transform: true }))
+  @UseGuards(JwtAuthGuard)
   async createForumResponse(
     @Body() createForumResponseDto: ForumResponseDto,
   ): Promise<ForumResponseModel> {

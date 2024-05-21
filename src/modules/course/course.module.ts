@@ -9,9 +9,10 @@ import { CourseService } from './services/course.service';
 import { CourseCategoryController } from './controllers/category.controller';
 import { CourseController } from './controllers/course.controller';
 import { CourseStatusController } from './controllers/status.controller';
+import { AuthModule } from '../auth/auth.module';
 
 @Module({
-  imports: [PrismaModule],
+  imports: [PrismaModule, AuthModule],
   controllers: [
     CourseCategoryController,
     CourseStatusController,
