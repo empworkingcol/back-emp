@@ -3,7 +3,7 @@ export class ResNewDto {
   new_title: string;
   new_text: string;
   img_url: string;
-  NewComment: {
+  new_comment: {
     comment_text: string;
     creation_date: Date;
     user: {
