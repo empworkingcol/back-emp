@@ -10,7 +10,7 @@ export class ForumQuestionDto {
   @IsNotEmpty()
   @IsString()
   @MinLength(6)
-  @MaxLength(255)
+  @MaxLength(2040)
   question_text: string;
 
   @IsNotEmpty()

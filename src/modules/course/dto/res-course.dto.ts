@@ -3,7 +3,7 @@ export class ResCourseDto {
 
   course_description: string;
 
-  CategoryCourse: {
+  category_course: {
     category_name: string;
   };
 
@@ -15,12 +15,12 @@ export class ResCourseDto {
 
   img_url: string;
 
-  Video: {
+  video: {
     video_url: string;
     position: number;
   }[];
 
-  Test: {
+  test: {
     option_1: string;
     option_2: string;
     option_3: string;

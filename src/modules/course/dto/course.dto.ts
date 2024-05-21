@@ -28,7 +28,7 @@ export class CourseDto {
   @IsNotEmpty()
   @IsString()
   @MinLength(6)
-  @MaxLength(255)
+  @MaxLength(2040)
   course_description: string;
 
   @IsNotEmpty()

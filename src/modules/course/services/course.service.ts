@@ -26,18 +26,18 @@ export class CourseService {
         course_date: true,
         total_steps: true,
         course_type: true,
-        CategoryCourse: {
+        category_course: {
           select: {
             category_name: true,
           },
         },
-        Video: {
+        video: {
           select: {
             video_url: true,
             position: true,
           },
         },
-        Test: {
+        test: {
           select: {
             option_1: true,
             option_2: true,
@@ -62,7 +62,7 @@ export class CourseService {
         course_description: true,
         img_url: true,
         course_date: true,
-        CategoryCourse: {
+        category_course: {
           select: {
             category_name: true,
           },
@@ -85,7 +85,7 @@ export class CourseService {
         total_steps: data.total_steps,
         course_type: data.course_type,
         course_date: data.course_date,
-        CategoryCourse: { connect: { category_id: data.category_id } },
+        category_course: { connect: { category_id: data.category_id } },
       },
     });
 
@@ -120,9 +120,9 @@ export class CourseService {
   async enrollUser(data): Promise<string> {
     const enroll = await this.prisma.coursesUsers.create({
       data: {
-        Course: { connect: { course_id: data.course_id } },
-        CourseStatus: { connect: { status_id: 1 } },
-        User: { connect: { user_id: data.user_id } },
+        course: { connect: { course_id: data.course_id } },
+        course_status: { connect: { status_id: 1 } },
+        user: { connect: { user_id: data.user_id } },
         step: 1,
       },
     });

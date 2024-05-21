@@ -21,7 +21,7 @@ export class NewService {
         new_title: true,
         new_text: true,
         img_url: true,
-        NewComment: {
+        new_comment: {
           select: {
             comment_text: true,
             creation_date: true,
@@ -54,7 +54,7 @@ export class NewService {
         new_title: true,
         new_text: true,
         img_url: true,
-        NewComment: {
+        new_comment: {
           select: {
             comment_text: true,
             creation_date: true,
